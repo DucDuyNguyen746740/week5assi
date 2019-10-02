@@ -1,0 +1,118 @@
+
+create table warehouse(
+	item_id varchar(20) not null primary key,
+	item_descr varchar(20) not null,
+	item_qty int,
+	item_price money
+);
+
+create procedure dbo.generating_warehouse_data
+@item_id varchar(20),
+@item_descr varchar(20),
+@item_qty int,
+@item_price money
+AS
+BEGIN
+	insert into warehouse (item_id, item_descr, item_qty, item_price)
+	values (@item_id, @item_descr, @item_qty, @item_price)
+END
+GO
+
+exec dbo.generating_warehouse_data '1', 'wood', 60, 2000
+exec dbo.generating_warehouse_data '2', 'veggies', 100, 200
+exec dbo.generating_warehouse_data '3', 'silver', 50, 1000
+exec dbo.generating_warehouse_data '4', 'food', 80, 200
+exec dbo.generating_warehouse_data '5', 'computer', 70, 20000
+exec dbo.generating_warehouse_data '6', 'phone', 60, 5000
+exec dbo.generating_warehouse_data '7', 'machine', 70, 10000
+exec dbo.generating_warehouse_data '8', 'iron', 100, 1500
+exec dbo.generating_warehouse_data '9', 'copper', 120, 1000
+exec dbo.generating_warehouse_data '10', 'gold', 20, 2000
+
+
+CREATE TABLE orders(
+order_id INT IDENTITY(1,1),
+item_id VARCHAR(20),
+truck_id VARCHAR(20),
+PRIMARY KEY (order_id)
+);
+
+____________________________________________
+
+CREATE PROCEDURE GeneratetheTables
+AS
+BEGIN
+    SET NOCOUNT ON;
+	CREATE TABLE orders (
+	    order_id INT IDENTITY(1,1) PRIMARY KEY,
+		item_id VARCHAR(20) NOT NULL,
+        truck_id VARCHAR(20) NOT NULL 
+		);
+END
+GO
+
+ 
+CREATE PROCEDURE dbo.generate_orders_data
+@item_id varchar(20),
+@truck_id varchar(20)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO orders (item_id, truck_id) 
+    VALUES (@item_id, @truck_id);
+END
+GO
+ 
+EXEC dbo.generate_orders_data '1', 'ab08'
+EXEC dbo.generate_orders_data '2', 'ac08'
+EXEC dbo.generate_orders_data '3', 'ab09'
+EXEC dbo.generate_orders_data '4', 'ad03'
+EXEC dbo.generate_orders_data '5', 'ap02'
+EXEC dbo.generate_orders_data '6', 'ac02'
+EXEC dbo.generate_orders_data '7', 'af09'
+EXEC dbo.generate_orders_data '8', 'az08'
+EXEC dbo.generate_orders_data '9', 'ba08'
+EXEC dbo.generate_orders_data '10', 'ka08'
+
+
+
+
+
+CREATE PROCEDURE Truck1
+AS
+    create table Truck(
+    Truck_ID varchar(20)  primary key,
+    DriverName varchar(20),
+    OrderNumber varchar(20),
+)
+GO
+exec Truck1
+insert into Truck(Truck_ID,DriverName,OrderNumber ) values ( 'ab08' , 'Kiran',  'ab1') ; 
+insert into Truck(Truck_ID,DriverName,OrderNumber ) values ( 'ac08' , 'philpa',  'ab2') ;
+insert into Truck(Truck_ID,DriverName,OrderNumber ) values ( 'ab09' , 'ramandeep',  'ab3') ;
+insert into Truck(Truck_ID,DriverName,OrderNumber ) values ( 'ad03' , 'satvir',  'ab41') ;
+insert into Truck(Truck_ID,Drivername,OrderNumber ) values ( 'ap02' , 'akanksha',  'ab5') ;
+insert into Truck(Truck_ID,Drivername,OrderNumber ) values ( 'ac02' , 'aman',  'ab6') ;
+insert into Truck(Truck_ID,DriverName,OrderNumber ) values ( 'af09' , 'garima',  'ab7') ;
+insert into Truck(Truck_ID,DriverName,OrderNumber ) values ( 'az08' , 'riya',  'ab8') ;
+insert into Truck(Truck_ID,DriverName,OrderNumber ) values ( 'ba08' , 'sonali',  'ab9') ;
+insert into Truck(Truck_ID,DriverName,OrderNumber ) values ( 'ka08' , 'serjio',  'ab10') ;
+
+
+
+select * from warehouse;
+select * from orders;
+select * from Truck;
+
+select * from warehouse, orders, Truck
+where orders.item_id = warehouse.item_id and
+ orders.truck_id = Truck.Truck_ID;
+
+ update Truck
+ set OrderNumber = 'ab4'
+ where OrderNumber = 'ab41'
+
+ select warehouse.item_id, warehouse.item_descr, warehouse.item_qty, warehouse.item_price, Truck.DriverName, Truck.OrderNumber, Truck.Truck_ID
+ from warehouse, Truck, orders
+ where orders.item_id = warehouse.item_id and
+ orders.truck_id = Truck.Truck_ID;
